@@ -1,0 +1,1 @@
+web: gunicorn nivelacion_tierra.wsgi
