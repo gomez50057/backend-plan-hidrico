@@ -1,8 +1,15 @@
 from django.db import models
-# from django.utils import timezone
+from .utils import distritos, modulos
 from datetime import date
+import os
 
+def archivo_pdf_path(instance, filename):
+    folio = instance.folio or 'temp'
+    return os.path.join('nivelación de tierra', f'{folio}', 'archivos_pdfs', filename)
 
+def constancia_pdf_path(instance, filename):
+    folio = instance.folio or 'temp'
+    return os.path.join('nivelación de tierra', f'{folio}', 'constancia_pdf', filename)
 
 class NivelacionTierra(models.Model):
     # Datos generales del solicitante
@@ -44,21 +51,23 @@ class NivelacionTierra(models.Model):
 
     acreditacion_propiedad = models.CharField(max_length=10)
     documento_presentado = models.CharField(max_length=100)
-    archivo_pdf = models.FileField(upload_to='archivos_pdfs/', blank=True, null=True)
+    archivo_pdf = models.FileField(upload_to=archivo_pdf_path, blank=True, null=True)
     curso_sader = models.CharField(max_length=10)
     cuando_toma_sader = models.CharField(max_length=100, blank=True, null=True)
+    constancia_pdf = models.FileField(upload_to=constancia_pdf_path, blank=True, null=True)
 
     firma_digital = models.TextField()  # <-- Aquí se guarda el Base64
 
     # Metadatos
-    # fecha = models.DateField(default=timezone.now)
     fecha = models.DateField(default=date.today)
     folio = models.CharField(max_length=100, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.folio:
             super().save(*args, **kwargs)
-            self.folio = f'SPNT-{self.fecha.strftime("%Y%m%d")}-{self.id}'
+            distrito = distritos.get(self.distrito_riego, '000')
+            modulo = modulos.get(self.modulo_riego, '000')
+            self.folio = f'SPNT-{distrito}-{modulo}-{self.id}'
             super().save(update_fields=["folio"])
         else:
             super().save(*args, **kwargs)
@@ -66,15 +75,6 @@ class NivelacionTierra(models.Model):
     def __str__(self):
         return self.folio
 
-
-# class ArchivoPDF(models.Model):
-#     nivelacion = models.OneToOneField(NivelacionTierra, on_delete=models.CASCADE, related_name='archivo')
-#     archivo = models.FileField(upload_to='nivelacion_pdfs/')
-#     fecha_subida = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return f"Archivo de {self.nivelacion.folio}"
-    
 
 from django.db import models
 
