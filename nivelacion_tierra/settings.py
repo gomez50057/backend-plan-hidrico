@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(" ")
-CSRF_TRUSTED_ORIGINS = [ 'http://*', 'https://backendhidrico-production.up.railway.app/' ]
+CSRF_TRUSTED_ORIGINS = [ 'http://*', 'https://backendhidrico-production.up.railway.app' ]
 
 
 
@@ -67,9 +67,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'nivelacion_tierra.urls'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+CORS_ALLOWED_ORIGINS = [ 'http://localhost:300', 'https://plan-hidrico-metropolitano.vercel.app']
 
 TEMPLATES = [
     {
