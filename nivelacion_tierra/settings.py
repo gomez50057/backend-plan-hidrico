@@ -30,6 +30,10 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(" ")
+CSRF_TRUSTED_ORIGINS = [ 'http://*', 'https://backendhidrico-production.up.railway.app/' ]
+
+
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Configuración de Whitenoise para archivos estáticos
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
