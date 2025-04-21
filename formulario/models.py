@@ -75,15 +75,11 @@ class NivelacionTierra(models.Model):
     def __str__(self):
         return self.folio
 
-
-from django.db import models
-
 class ArchivoPDF(models.Model):
     nivelacion = models.OneToOneField(
         'NivelacionTierra',
         on_delete=models.CASCADE,
         related_name='archivo',
-        db_column='nivelacion'  # Esto fuerza a Django a buscar la columna "nivelacion"
     )
     area_atencion_prioritaria = models.CharField(max_length=10, blank=True, null=True)
     convenio_colaboracion_pnh = models.CharField(max_length=10, blank=True, null=True)
@@ -99,6 +95,4 @@ class ArchivoPDF(models.Model):
 
     def __str__(self):
         return f"Validación de {self.nivelacion.folio}"
-
-
 
