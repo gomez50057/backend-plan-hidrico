@@ -2,6 +2,9 @@
 venv/
 env/
 
+# staticfiles
+staticfiles
+
 # Archivos de entorno
 .env
 
