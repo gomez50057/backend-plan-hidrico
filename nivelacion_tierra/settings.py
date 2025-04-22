@@ -69,6 +69,8 @@ ROOT_URLCONF = 'nivelacion_tierra.urls'
 
 CORS_ALLOWED_ORIGINS = [ 'http://localhost:300', 'https://plan-hidrico-metropolitano.vercel.app']
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
