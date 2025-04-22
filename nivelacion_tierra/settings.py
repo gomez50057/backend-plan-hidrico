@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'rest_framework',
     'whitenoise.runserver_nostatic',
+    'auth_app',
     'formulario',
     'corsheaders',
     'django.contrib.contenttypes',
