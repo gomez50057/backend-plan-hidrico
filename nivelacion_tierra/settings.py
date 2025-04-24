@@ -70,7 +70,27 @@ ROOT_URLCONF = 'nivelacion_tierra.urls'
 
 CORS_ALLOWED_ORIGINS = [ 'http://localhost:300', 'https://plan-hidrico-metropolitano.vercel.app']
 
-CORS_ALLOW_ALL_ORIGINS = True
+# Para permitir todos los orígenes durante desarrollo, en lugar de CORS_ALLOWED_ORIGINS  usar
+# CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
+  ),
+}
+
+
+from datetime import timedelta
+SIMPLE_JWT = {
+  'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+  'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+  'ROTATE_REFRESH_TOKENS': True,
+}
+
 
 TEMPLATES = [
     {
