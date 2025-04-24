@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import NivelacionTierra, ArchivoPDF
 
 class NivelacionTierraSerializer(serializers.ModelSerializer):
+    created_by = serializers.ReadOnlyField(source='created_by.username')
+    
     class Meta:
         model = NivelacionTierra
         fields = '__all__'

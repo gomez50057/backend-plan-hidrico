@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from .utils import distritos, modulos
 from datetime import date
 import os
+
+User = get_user_model()
 
 def archivo_pdf_path(instance, filename):
     folio = instance.folio or 'temp'
@@ -57,6 +60,15 @@ class NivelacionTierra(models.Model):
     constancia_pdf = models.FileField(upload_to=constancia_pdf_path, blank=True, null=True)
 
     firma_digital = models.TextField()  # <-- Aquí se guarda el Base64
+
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="nivelaciones_creadas",
+        help_text="Usuario que creó este formulario"
+    )
 
     # Metadatos
     fecha = models.DateField(default=date.today)
