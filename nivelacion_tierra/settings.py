@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'auth_app',
     'formulario',
+    'ecos_ciudadania',
     'corsheaders',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -68,12 +69,27 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'nivelacion_tierra.urls'
 
-CORS_ALLOWED_ORIGINS = [ 'http://localhost:300', 'https://plan-hidrico-metropolitano.vercel.app']
+CORS_ALLOWED_ORIGINS = ['http://192.168.1.87:3000', 'http://localhost:3000', 'http://127.0.0.1:8000', 'https://plan-hidrico-metropolitano.vercel.app', 'http://bancodeproyectos.hidalgo.gob.mx']
 
 # Para permitir todos los orígenes durante desarrollo, en lugar de CORS_ALLOWED_ORIGINS  usar
 # CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+]
+
+# Permitir cookies cross-origin
 CORS_ALLOW_CREDENTIALS = True
+
+# Cookies deben ser cross-site
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'None'
+
+
+# Cookies seguras
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 
@@ -89,11 +105,19 @@ REST_FRAMEWORK = {
 
 from datetime import timedelta
 SIMPLE_JWT = {
-  'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
-  'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-  'ROTATE_REFRESH_TOKENS': True,
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+
+    "AUTH_COOKIE": "access_token",
+    "AUTH_COOKIE_SECURE": True,
+    "AUTH_COOKIE_SAMESITE": "None",  # <--- Esto está bien
+    "AUTH_COOKIE_HTTP_ONLY": True,
 }
 
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 TEMPLATES = [
     {
@@ -167,3 +191,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

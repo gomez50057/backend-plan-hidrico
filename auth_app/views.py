@@ -20,27 +20,33 @@ class LoginAPIView(APIView):
             return Response({'detail': 'Credenciales inválidas'}, status=401)
 
         refresh = RefreshToken.for_user(user)
-        # Inyecta grupos en el token
         refresh['groups'] = list(user.groups.values_list('name', flat=True))
         access_token = str(refresh.access_token)
 
-        resp = Response({'access': access_token})
-        # Cookies HTTP-Only
+        username = user.username
+        groups = list(user.groups.values_list('name', flat=True))
+
+        resp = Response({
+            'detail': 'Login exitoso',
+            'username': username,
+            'groups': groups,
+        }, status=200)
+
         resp.set_cookie(
             'access_token', access_token,
             httponly=True,
-            secure=not settings.DEBUG,
-            samesite='Strict',
+            secure=True,
+            samesite='None',
             max_age=15*60,
-            path='/'  # válida para todo tu dominio
+            path='/planhidrico'
         )
         resp.set_cookie(
             'refresh_token', str(refresh),
             httponly=True,
-            secure=not settings.DEBUG,
-            samesite='Strict',
+            secure=True,
+            samesite='None',
             max_age=7*24*3600,
-            path='/'  
+            path='/planhidrico'
         )
         return resp
 
@@ -58,7 +64,7 @@ class RefreshAPIView(APIView):
             resp = Response({'access': new_access})
             resp.set_cookie('access_token', new_access,
                             httponly=True, secure=not settings.DEBUG,
-                            samesite='Strict', max_age=15*60, path='/')
+                            samesite='None', max_age=15*60, path='/planhidrico')
             return resp
         except Exception:
             return Response({'detail': 'Refresh inválido'}, status=401)
@@ -69,8 +75,8 @@ class LogoutAPIView(APIView):
 
     def post(self, request):
         resp = Response({'detail': 'Logged out'})
-        resp.delete_cookie('access_token', path='/')
-        resp.delete_cookie('refresh_token', path='/')
+        resp.delete_cookie('access_token', path='/planhidrico')
+        resp.delete_cookie('refresh_token', path='/planhidrico')
         return resp
 
 class MeAPIView(APIView):

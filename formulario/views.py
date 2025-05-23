@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 class NivelacionTierraViewSet(viewsets.ModelViewSet):
     queryset = NivelacionTierra.objects.all()
     serializer_class = NivelacionTierraSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         # 1) Se crea la instancia sin los archivos (solo datos “no-file”).
@@ -39,7 +39,7 @@ class NivelacionTierraViewSet(viewsets.ModelViewSet):
     """
     queryset = NivelacionTierra.objects.all()
     serializer_class = NivelacionTierraSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     # Aquí indicamos que la parte dinámica de la URL es el campo `folio`
     lookup_field = 'folio'
@@ -63,7 +63,7 @@ class NivelacionTierraUserViewSet(viewsets.ModelViewSet):
       - DELETE /nivelaciones/{pk}/     → eliminar (solo si es suyo)
     """
     serializer_class = NivelacionTierraSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         # Filtra la lista para que solo aparezcan sus propias instancias
