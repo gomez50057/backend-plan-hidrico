@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import RegexValidator, EmailValidator
 from django.core.exceptions import ValidationError
 
 
@@ -20,6 +21,16 @@ class DocumentoCiudadano(models.Model):
     nombre_documento = models.CharField(max_length=255)
     descripcion = models.TextField(blank=True)
     autor = models.CharField(max_length=255)
+    telefono = models.CharField(
+        max_length=10,
+        validators=[RegexValidator(r'^\d{10}$', message='Debe ingresar un número de 10 dígitos')],
+        help_text="Número de teléfono a 10 dígitos"
+    )
+    correo = models.EmailField(
+        max_length=255,
+        validators=[EmailValidator(message='Debe ser un correo electrónico válido')],
+        help_text="Correo de contacto"
+    )
     fecha_carga = models.DateTimeField(default=timezone.now)
     categorias = models.ManyToManyField(Categoria, related_name='documentos')
     archivo_pdf = models.FileField(upload_to='documentos/pdf/', validators=[validar_pdf])
