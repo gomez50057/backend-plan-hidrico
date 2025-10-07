@@ -30,9 +30,12 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(" ")
-CSRF_TRUSTED_ORIGINS = [ 'http://*', 'https://backendhidrico-production.up.railway.app' ]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://planhidrico.hidalgo.gob.mx',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Configuración de Whitenoise para archivos estáticos
@@ -69,7 +72,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'nivelacion_tierra.urls'
 
-CORS_ALLOWED_ORIGINS = ['http://192.168.1.87:3000', 'http://localhost:3000', 'http://127.0.0.1:8000', 'https://plan-hidrico-metropolitano.vercel.app', 'http://bancodeproyectos.hidalgo.gob.mx']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://planhidrico.hidalgo.gob.mx',
+]
 
 # Para permitir todos los orígenes durante desarrollo, en lugar de CORS_ALLOWED_ORIGINS  usar
 # CORS_ALLOW_ALL_ORIGINS = True
